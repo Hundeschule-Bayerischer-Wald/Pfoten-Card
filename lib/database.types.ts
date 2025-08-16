@@ -1,13 +1,27 @@
-import { Database } from './supabase'
+// Manuelle Typdefinitionen (falls Supabase-Typen nicht generiert werden)
+export type Kunde = {
+  id: string
+  name: string
+  email: string
+  telefon?: string
+  hund_name: string
+  guthaben: number
+  qr_code: string
+  created_at: string
+}
 
-export type Kunde = Database['public']['Tables']['kunden']['Row']
-export type Mitarbeiter = Database['public']['Tables']['mitarbeiter']['Row']
-export type Transaktion = Database['public']['Tables']['transaktionen']['Row']
+export type Mitarbeiter = {
+  id: string
+  email: string
+  role: 'admin' | 'mitarbeiter'
+  full_name?: string
+}
 
-// Beispiel für Tabellentypen (anpassen an deine Supabase-Struktur)
-export interface GuthabenAufladung {
-  betrag: number
-  bonus: number
+export type Transaktion = {
+  id: string
   kunde_id: string
   mitarbeiter_id: string
+  betrag: number
+  typ: 'aufladen' | 'abbuchen' | 'bonus'
+  created_at: string
 }
