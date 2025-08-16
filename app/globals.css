@@ -2,6 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+@layer base {
+  body {
+    font-family: 'Inter', system-ui, sans-serif;
+  }
+  h1, h2, h3 {
+    @apply font-bold;
+  }
+  button, .button {
+    @apply transition-all duration-200 hover:opacity-90;
+  }
 }
