@@ -1,5 +1,6 @@
+'use client'
 import Link from 'next/link'
-import { colors } from '@/theme'
+import { colors } from '../theme'
 
 export function Sidebar() {
   const navItems = [
@@ -22,7 +23,6 @@ export function Sidebar() {
               <Link 
                 href={item.href}
                 className="block py-2 px-4 rounded-lg hover:bg-gray-100"
-                style={{ color: colors.text }}
               >
                 {item.name}
               </Link>
