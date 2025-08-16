@@ -16,6 +16,11 @@
     "jsqr": "^1.4.0",
     "uuid": "^9.0.1"
   },
+  "devDependencies": {
+    "typescript": "^5.4.5",
+    "@types/react": "^18.2.61",
+    "@types/node": "^20.11.19"
+  },
   "engines": {
     "node": "22.x"
   }
