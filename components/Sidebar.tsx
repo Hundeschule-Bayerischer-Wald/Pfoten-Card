@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { colors } from '@/theme';
 
-export default function Sidebar() {
+const Sidebar = () => {
   return (
     <div className="w-64 bg-white shadow-md">
       <div className="p-4 border-b" style={{ borderColor: colors.light }}>
@@ -33,4 +33,6 @@ export default function Sidebar() {
       </nav>
     </div>
   );
-}
+};
+
+export default Sidebar;
