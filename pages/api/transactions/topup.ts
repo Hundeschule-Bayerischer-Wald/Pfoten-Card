@@ -1,4 +1,3 @@
-```typescript
 import { createClient } from '@supabase/supabase-js';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { getServerSession } from 'next-auth/next';
@@ -75,4 +74,3 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     return res.status(500).json({ error: 'Interner Serverfehler' });
   }
 }
-```
