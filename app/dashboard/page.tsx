@@ -13,8 +13,6 @@ export default function Dashboard() {
         <Card title="Guthaben gesamt" value="450,00 €" />
         <Card title="Heutige Transaktionen" value="5" />
       </div>
-
-      {/* Transaktionsliste würde hier kommen */}
     </div>
   )
 }
