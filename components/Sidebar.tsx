@@ -1,6 +1,6 @@
 'use client'
 import Link from 'next/link'
-import { colors } from '../theme'
+import { colors } from '@/theme'
 
 export function Sidebar() {
   const navItems = [
