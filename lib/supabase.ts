@@ -1,28 +1,39 @@
 import { createClient } from '@supabase/supabase-js'
 
-// Error-Handling für fehlende Umgebungsvariablen
-if (!process.env.NEXT_PUBLIC_SUPABASE_URL) {
-  throw new Error('NEXT_PUBLIC_SUPABASE_URL ist nicht definiert')
-}
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
+const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
 
-if (!process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
-  throw new Error('NEXT_PUBLIC_SUPABASE_ANON_KEY ist nicht definiert')
-}
+export const supabase = createClient(supabaseUrl, supabaseKey, {
+  auth: {
+    persistSession: true,
+    autoRefreshToken: true
+  }
+})
 
-// Supabase-Client initialisieren
-export const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
-  {
-    auth: {
-      persistSession: true,
-      autoRefreshToken: true,
-      detectSessionInUrl: true
+// Manuelle Typendefinition (ersetzt die automatische Generierung)
+export type Database = {
+  public: {
+    Tables: {
+      kunden: {
+        Row: {
+          id: string
+          name: string
+          email: string
+          telefon?: string
+          hund_name: string
+          guthaben: number
+          qr_code: string
+          created_at: string
+        }
+      }
+      mitarbeiter: {
+        Row: {
+          id: string
+          email: string
+          role: 'admin' | 'mitarbeiter'
+          full_name?: string
+        }
+      }
     }
   }
-)
-
-// Hilfsfunktion für Serverkomponenten
-export function createServerClient() {
-  return supabase
 }
