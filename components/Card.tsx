@@ -1,5 +1,5 @@
 'use client'
-import { colors } from '../theme'
+import { colors } from '@/theme'
 
 export function Card({ title, value }: { title: string; value: string }) {
   return (
