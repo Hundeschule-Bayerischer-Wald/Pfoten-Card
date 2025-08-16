@@ -1,11 +1,18 @@
 import { createClient } from '@supabase/supabase-js';
 import { NextApiRequest, NextApiResponse } from 'next';
-import { getServerSession } from '@supabase/auth-helpers-nextjs';
+import { createServerClient } from '@supabase/ssr';
 
 // Supabase-Client initialisieren
-const supabase = createClient(
+const supabase = createServerClient(
   process.env.SUPABASE_URL!,
-  process.env.SUPABASE_ANON_KEY!
+  process.env.SUPABASE_ANON_KEY!,
+  {
+    cookies: {
+      get: () => null,
+      set: () => {},
+      remove: () => {},
+    },
+  }
 );
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
@@ -15,7 +22,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   }
 
   // Benutzersession prüfen
-  const session = await getServerSession({ req, res });
+  const { data: { session } } = await supabase.auth.getSession();
   if (!session || !session.user) {
     return res.status(401).json({ error: 'Nicht autorisiert' });
   }
