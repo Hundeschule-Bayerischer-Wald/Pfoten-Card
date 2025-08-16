@@ -1,10 +1,10 @@
 export const colors = {
-  primary: '#4F46E5',    // Indigo
-  secondary: '#F59E0B',  // Orange
-  background: '#F9FAFB', // Hellgrau
-  card: '#FFFFFF',       // Weiß
-  text: '#1F2937',       // Dunkelgrau
-  error: '#EF4444'       // Rot
+  primary: '#4F46E5',
+  secondary: '#F59E0B',
+  background: '#F9FAFB',
+  card: '#FFFFFF',
+  text: '#1F2937',
+  error: '#EF4444'
 }
 
 export const spacing = {
