@@ -1,6 +1,6 @@
-"use client";
-import { useCallback, useState } from 'react';
-import QrScanner from 'react-qr-scanner';
+'use client';
+import { useState, useCallback } from 'react';
+import QrReader from 'react-qr-reader-es6';
 
 export default function QrScannerComponent({ onScan }: { onScan: (data: string) => void }) {
   const [error, setError] = useState<string | null>(null);
@@ -11,14 +11,14 @@ export default function QrScannerComponent({ onScan }: { onScan: (data: string) 
     }
   }, [onScan]);
 
-  const handleError = useCallback((err: Error) => {
-    setError(err.message);
+  const handleError = useCallback((err: any) => {
+    setError(err?.message || 'Fehler beim Scannen');
   }, []);
 
   return (
     <div className="w-full max-w-md mx-auto">
       {error && <p className="text-red-500 mb-4">{error}</p>}
-      <QrScanner
+      <QrReader
         delay={300}
         onError={handleError}
         onScan={handleScan}
