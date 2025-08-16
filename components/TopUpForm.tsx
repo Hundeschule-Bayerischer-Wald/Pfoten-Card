@@ -1,4 +1,3 @@
-```typescript
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -6,9 +5,10 @@ import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { useSupabaseClient } from '@supabase/auth-helpers-react';
 
-// Komponente für Guthaben-Aufladung
+// Komponente für Guthaben-Aufladung und -Abbuchung
 const TopUpForm: React.FC = () => {
   const [amount, setAmount] = useState<number | ''>('');
+  const [action, setAction] = useState<'aufladen' | 'abbuchen'>('aufladen');
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
@@ -50,12 +50,13 @@ const TopUpForm: React.FC = () => {
     setIsConfirmOpen(true);
   };
 
-  const confirmTopUp = async () => {
+  const confirmAction = async () => {
     setLoading(true);
     setError(null);
 
     try {
-      const response = await fetch('/api/transactions/topup', {
+      const endpoint = action === 'aufladen' ? '/api/transactions/topup' : '/api/transactions/withdraw';
+      const response = await fetch(endpoint, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ amount: Number(amount) }),
@@ -64,7 +65,7 @@ const TopUpForm: React.FC = () => {
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.error || 'Guthaben-Aufladung fehlgeschlagen');
+        throw new Error(data.error || `${action === 'aufladen' ? 'Aufladung' : 'Abbuchung'} fehlgeschlagen`);
       }
 
       setAmount('');
@@ -79,8 +80,22 @@ const TopUpForm: React.FC = () => {
 
   return (
     <div className="p-4 bg-white rounded-lg shadow-md">
-      <h2 className="text-xl font-bold text-blue-600 mb-4">Guthaben aufladen</h2>
+      <h2 className="text-xl font-bold text-blue-600 mb-4">Guthaben verwalten</h2>
       <form onSubmit={handleSubmit} className="space-y-4">
+        <div>
+          <label htmlFor="action" className="block text-sm font-medium text-gray-700">
+            Aktion
+          </label>
+          <select
+            id="action"
+            value={action}
+            onChange={(e) => setAction(e.target.value as 'aufladen' | 'abbuchen')}
+            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-orange-500 focus:ring-orange-500"
+          >
+            <option value="aufladen">Aufladen</option>
+            <option value="abbuchen">Abbuchen</option>
+          </select>
+        </div>
         <div>
           <label htmlFor="amount" className="block text-sm font-medium text-gray-700">
             Betrag (€)
@@ -102,17 +117,20 @@ const TopUpForm: React.FC = () => {
           disabled={loading}
           className="w-full bg-orange-500 text-white py-2 px-4 rounded-md hover:bg-orange-600 disabled:opacity-50"
         >
-          {loading ? 'Wird verarbeitet...' : 'Aufladen'}
+          {loading ? 'Wird verarbeitet...' : action === 'aufladen' ? 'Aufladen' : 'Abbuchen'}
         </button>
       </form>
 
       {isConfirmOpen && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
           <div className="bg-white p-6 rounded-lg shadow-lg">
-            <h3 className="text-lg font-semibold text-blue-600">Aufladung bestätigen</h3>
+            <h3 className="text-lg font-semibold text-blue-600">
+              {action === 'aufladen' ? 'Aufladung' : 'Abbuchung'} bestätigen
+            </h3>
             <p className="mt-2 text-gray-700">
               Möchtest du wirklich €{amount}
-              {amount >= 100 ? ` (inkl. €${(amount * 0.1).toFixed(2)} Bonus)` : ''} aufladen?
+              {action === 'aufladen' && amount >= 100 ? ` (inkl. €${(amount * 0.1).toFixed(2)} Bonus)` : ''}{' '}
+              {action === 'aufladen' ? 'aufladen' : 'abbuchen'}?
             </p>
             <div className="mt-4 flex justify-end space-x-2">
               <button
@@ -122,7 +140,7 @@ const TopUpForm: React.FC = () => {
                 Abbrechen
               </button>
               <button
-                onClick={confirmTopUp}
+                onClick={confirmAction}
                 disabled={loading}
                 className="px-4 py-2 bg-orange-500 text-white rounded-md hover:bg-orange-600 disabled:opacity-50"
               >
@@ -137,4 +155,3 @@ const TopUpForm: React.FC = () => {
 };
 
 export default TopUpForm;
-```
