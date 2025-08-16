@@ -4,7 +4,10 @@ import { colors } from '@/theme'
 export default function Dashboard() {
   return (
     <div className="space-y-6">
-      <h1 className="text-2xl font-bold" style={{ color: colors.primary }}>
+      <h1 
+        className="text-2xl font-bold" 
+        style={{ color: colors.primary }}
+      >
         Willkommen zurück!
       </h1>
 
