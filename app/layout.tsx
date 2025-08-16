@@ -1,10 +1,6 @@
-import type { Metadata } from 'next'
 import './globals.css'
-
-export const metadata: Metadata = {
-  title: 'PfotenCard',
-  description: 'Hundeschule Wertkartensystem',
-}
+import { Sidebar } from '@/components/Sidebar'
+import { colors } from '@/theme'
 
 export default function RootLayout({
   children,
@@ -13,10 +9,13 @@ export default function RootLayout({
 }) {
   return (
     <html lang="de">
-      <body className="bg-gray-50 min-h-screen">
-        <main className="container mx-auto p-4">
-          {children}
-        </main>
+      <body style={{ backgroundColor: colors.background }}>
+        <div className="flex min-h-screen">
+          <Sidebar />
+          <main className="flex-1 p-8">
+            {children}
+          </main>
+        </div>
       </body>
     </html>
   )
