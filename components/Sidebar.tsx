@@ -1,48 +1,36 @@
-'use client'
-import Link from 'next/link'
-import { usePathname } from 'next/navigation'
-import { colors } from '@/theme'
+import Link from 'next/link';
+import { colors } from '@/theme';
 
-export function Sidebar() {
-  const pathname = usePathname()
-  const navItems = [
-    { name: 'Übersicht', href: '/dashboard' },
-    { name: 'Kunden', href: '/kunden' },
-    { name: 'Scanner', href: '/scanner' },
-    { name: 'Berichte', href: '/berichte' },
-    { name: 'Mitarbeiter', href: '/admin' }
-  ]
-
+export default function Sidebar() {
   return (
-    <div 
-      className="w-64 p-4 min-h-screen"
-      style={{ backgroundColor: colors.primary }}
-    >
-      <h1 
-        className="text-2xl font-bold mb-8 p-2 border-b"
-        style={{ borderColor: colors.primaryDark, color: colors.white }}
-      >
-        PfotenCard
-      </h1>
-      <nav className="space-y-1">
-        {navItems.map((item) => (
-          <Link
-            key={item.name}
-            href={item.href}
-            className={`block py-3 px-4 rounded-lg transition-colors ${
-              pathname === item.href
-                ? 'font-medium shadow-inner'
-                : 'hover:bg-blue-500'
-            }`}
-            style={{
-              backgroundColor: pathname === item.href ? colors.primaryDark : 'transparent',
-              color: colors.white
-            }}
-          >
-            {item.name}
-          </Link>
-        ))}
+    <div className="w-64 bg-white shadow-md">
+      <div className="p-4 border-b" style={{ borderColor: colors.light }}>
+        <h2 className="text-xl font-bold">PfotenCard</h2>
+      </div>
+      <nav className="p-4">
+        <ul className="space-y-2">
+          <li>
+            <Link href="/dashboard" className="block p-2 hover:bg-gray-100 rounded">
+              Dashboard
+            </Link>
+          </li>
+          <li>
+            <Link href="/customers" className="block p-2 hover:bg-gray-100 rounded">
+              Kunden
+            </Link>
+          </li>
+          <li>
+            <Link href="/scan" className="block p-2 hover:bg-gray-100 rounded">
+              Scanner
+            </Link>
+          </li>
+          <li>
+            <Link href="/transactions" className="block p-2 hover:bg-gray-100 rounded">
+              Transaktionen
+            </Link>
+          </li>
+        </ul>
       </nav>
     </div>
-  )
+  );
 }
